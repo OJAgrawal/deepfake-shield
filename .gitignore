@@ -1,0 +1,5 @@
+.env
+__pycache__/
+*.py[cod]
+truthlens_media/.model_cache/
+truthlens_media/.artifacts/
