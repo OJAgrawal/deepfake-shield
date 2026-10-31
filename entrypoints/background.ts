@@ -1,8 +1,8 @@
 export default defineBackground(() => {
   browser.runtime.onInstalled.addListener(() => {
     browser.contextMenus.create({
-      id: "truthlens-analyze",
-      title: "Analyze image with TruthLens",
+      id: "proofy-analyze",
+      title: "Analyze image with Proofy!",
       contexts: ["image"]
     });
   });
@@ -16,7 +16,7 @@ export default defineBackground(() => {
         const reader = new FileReader();
         reader.onloadend = async () => {
           const base64data = reader.result;
-          const apiRes = await fetch('http://localhost:8000/analyze/image', {
+          const apiRes = await fetch('http://localhost:8001/analyze/image', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ image_base64: base64data })
@@ -26,13 +26,13 @@ export default defineBackground(() => {
           browser.notifications.create({
             type: 'basic',
             iconUrl: 'icon/48.png',
-            title: `TruthLens: ${result.label} (${(result.confidence * 100).toFixed(1)}%)`,
+            title: `Proofy!: ${result.label} (${(result.confidence * 100).toFixed(1)}%)`,
             message: result.explanation || "Analysis complete."
           });
         };
         reader.readAsDataURL(blob);
       } catch (err) {
-        console.error("TruthLens context menu error:", err);
+        console.error("Proofy! context menu error:", err);
       }
     }
   });
